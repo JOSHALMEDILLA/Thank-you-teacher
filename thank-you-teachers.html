@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thank You, Teachers! - Block 6 BSIT-3</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    min-height:100vh;font-family:"Georgia","Segoe UI",serif;color:#5a1a33;
+    background:linear-gradient(160deg,#ffe0ec,#ffc2d9 50%,#ffd9e8);
+    overflow-x:hidden;padding:24px 16px 60px;
+  }
+  .heart{position:fixed;bottom:-40px;color:#ff4d88;opacity:.6;animation:rise linear forwards;pointer-events:none;z-index:0}
+  @keyframes rise{to{transform:translateY(-110vh) rotate(25deg);opacity:0}}
+  .card{
+    position:relative;z-index:1;max-width:760px;margin:0 auto;background:#fff;
+    border-radius:28px;padding:36px 28px;text-align:center;
+    box-shadow:0 20px 50px rgba(214,51,108,.25);border:3px solid #ffb3cd;
+  }
+  .big{font-size:48px;animation:beat 1.2s infinite}
+  @keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+  h1{font-size:2rem;color:#d6336c;margin:8px 0}
+  .from{font-size:1.1rem;font-weight:bold;color:#a61e4d;margin-bottom:6px}
+  .hello{font-style:italic;margin-bottom:24px}
+  .buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;min-height:70px;margin-bottom:12px}
+  button{
+    font-family:inherit;font-size:1rem;font-weight:bold;border:none;cursor:pointer;
+    padding:14px 24px;border-radius:50px;transition:transform .2s,box-shadow .2s;
+  }
+  #noBtn{background:#e9ecef;color:#495057}
+  #yesBtn{background:linear-gradient(135deg,#ff4d88,#d6336c);color:#fff;box-shadow:0 8px 20px rgba(214,51,108,.4)}
+  #yesBtn:hover{transform:scale(1.07)}
+  #hint{font-size:.85rem;color:#a61e4d;min-height:22px;margin-bottom:18px}
+  #message{display:none;margin-top:10px}
+  #message.show{display:block;animation:fade .8s}
+  @keyframes fade{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+  #message p{
+    text-align:left;line-height:1.8;font-size:1.05rem;margin:14px 0;padding:16px 18px;
+    background:#fff0f6;border-left:6px solid #ff4d88;border-radius:14px;
+  }
+  .sign{margin-top:22px;font-weight:bold;color:#d6336c}
+
+  /* Surprise video overlay */
+  #scare{display:none;position:fixed;inset:0;z-index:100;background:#000;align-items:center;justify-content:center}
+  #scare.show{display:flex}
+  #scare video,#scare iframe{width:100%;height:100%;border:0;background:#000}
+  #closeScare{position:absolute;top:14px;right:14px;z-index:101;background:#fff;color:#d6336c;padding:10px 18px}
+
+  /* Theme toggle */
+  #themeBtn{position:fixed;top:14px;right:14px;z-index:10;padding:10px 16px;font-size:.9rem;
+    background:#fff;color:#d6336c;border:2px solid #ffb3cd;box-shadow:0 4px 12px rgba(214,51,108,.25)}
+
+  /* Dark mode */
+  body,.card,#message p{transition:background .4s,color .4s,border-color .4s}
+  body.dark{background:linear-gradient(160deg,#1a0b14,#2b1022 50%,#1f0d19);color:#ffd6e6}
+  body.dark .card{background:#2a1220;border-color:#8a2b55;box-shadow:0 20px 50px rgba(0,0,0,.6)}
+  body.dark h1,body.dark .sign{color:#ff7fb0}
+  body.dark .from,body.dark #hint{color:#ff9ec4}
+  body.dark #message p{background:#3a1830;color:#ffe0ec}
+  body.dark #noBtn{background:#4a3a44;color:#eee}
+  body.dark #themeBtn{background:#2a1220;color:#ffb3cd;border-color:#8a2b55}
+  body.dark .heart{opacity:.45}
+</style>
+</head>
+<body>
+
+<button id="themeBtn" aria-label="Toggle dark mode">🌙 Dark</button>
+
+<!-- Surprise video shows here after "Thank you, Teachers!" is clicked -->
+<div id="scare">
+  <button id="closeScare">Close ✖</button>
+  <div id="scareBox" style="width:100%;height:100%"></div>
+</div>
+
+<div class="card">
+  <div class="big">💖</div>
+  <h1>Hello, Our Dear Instructors!</h1>
+  <p class="from">From: Block 6 BSIT-3</p>
+  <p class="hello">Good day, teachers! We have a small message for you.</p>
+
+  <div class="buttons">
+    <button id="noBtn">I don't love my students 💔</button>
+    <button id="yesBtn">Thank you, Teachers! 💕</button>
+  </div>
+  <p id="hint"></p>
+
+  <div id="message">
+    <p>Thank you, teachers, for teaching us every day. You come to class and you help us learn new things. We are very thankful for your time and your hard work.</p>
+    <p>Thank you for being patient with us. When we do not understand, you explain again. We say thank you for your kind words and your good heart.</p>
+    <p>Thank you for helping us in IT. You show us how to think, how to work, and how to do better. We say thank you for every lesson and every advice.</p>
+    <p>Thank you, teachers, from all of us. We say thank you for everything you do. We love you, and we will always be thankful to you.</p>
+    <p class="sign">With love,<br>Block 6 BSIT-3 💖</p>
+  </div>
+</div>
+
+<script>
+  // Dark mode (follows the device setting first, then the button)
+  const themeBtn=document.getElementById('themeBtn');
+  function setDark(on){
+    document.body.classList.toggle('dark',on);
+    themeBtn.textContent=on?'☀️ Light':'🌙 Dark';
+  }
+  setDark(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);
+  themeBtn.addEventListener('click',()=>setDark(!document.body.classList.contains('dark')));
+
+  // Falling hearts
+  function spawnHeart(){
+    const h=document.createElement('div');
+    h.className='heart';h.textContent=['💗','💖','💕','❤️'][Math.floor(Math.random()*4)];
+    h.style.left=Math.random()*100+'vw';
+    h.style.fontSize=(16+Math.random()*26)+'px';
+    h.style.animationDuration=(5+Math.random()*5)+'s';
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),10500);
+  }
+  setInterval(spawnHeart,500);
+
+  // Button 1: always runs away, so it can never be clicked
+  const noBtn=document.getElementById('noBtn');
+  const hint=document.getElementById('hint');
+  const lines=["Oops! You can't press that one 😄","Too slow, teacher! 💕","That button is only for display 😜","We love you! Try the other button 💖"];
+  let n=0;
+  function runAway(e){
+    if(e&&e.preventDefault)e.preventDefault();
+    noBtn.style.position='fixed';
+    const maxX=window.innerWidth-noBtn.offsetWidth-10;
+    const maxY=window.innerHeight-noBtn.offsetHeight-10;
+    noBtn.style.left=Math.max(5,Math.random()*maxX)+'px';
+    noBtn.style.top=Math.max(5,Math.random()*maxY)+'px';
+    noBtn.style.zIndex=5;
+    hint.textContent=lines[n++%lines.length];
+  }
+  ['mouseover','pointerdown','touchstart','focus','click'].forEach(ev=>noBtn.addEventListener(ev,runAway));
+
+  // Button 2: say thank you
+  // ===================================================
+  // 👉 PASTE YOUR SHOCK / HORROR VIDEO LINK BETWEEN THE QUOTES BELOW
+  //    Works with a YouTube link (https://youtu.be/xxxx)
+  //    or a direct video file link (https://.../video.mp4)
+  // ===================================================
+  const VIDEO_URL = "ssstik.io_@halloweenparty_1791177801106.mp4";
+
+  const scare=document.getElementById('scare');
+  const scareBox=document.getElementById('scareBox');
+  let youtubePlayer=null;
+
+  function showMessage(){
+    const message=document.getElementById('message');
+    if(message.classList.contains('show'))return;
+    message.classList.add('show');
+    hint.textContent='Thank you, teachers! \u{1F496}';
+    for(let i=0;i<30;i++)setTimeout(spawnHeart,i*60);
+    message.scrollIntoView({behavior:'smooth'});
+  }
+
+  function finishVideo(){
+    if(youtubePlayer){
+      youtubePlayer.destroy();
+      youtubePlayer=null;
+    }
+    scare.classList.remove('show');
+    scareBox.innerHTML='';
+    showMessage();
+  }
+
+  function playScare(){
+    if(!VIDEO_URL.trim())return false;          // no link yet = skip
+    const yt=VIDEO_URL.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/);
+    if(yt){
+      const iframe=document.createElement('iframe');
+      iframe.id='scareYoutubePlayer';
+      iframe.src='https://www.youtube.com/embed/'+yt[1]+
+        '?autoplay=1&rel=0&playsinline=1&enablejsapi=1&origin='+encodeURIComponent(window.location.origin);
+      iframe.allow='autoplay; fullscreen';
+      iframe.allowFullscreen=true;
+      scareBox.replaceChildren(iframe);
+      window.onYouTubeIframeAPIReady=function(){
+        if(!iframe.isConnected)return;
+        youtubePlayer=new YT.Player(iframe,{events:{onStateChange:function(event){
+          if(event.data===YT.PlayerState.ENDED)finishVideo();
+        }}});
+      };
+      if(window.YT&&window.YT.Player){
+        window.onYouTubeIframeAPIReady();
+      }else if(!document.querySelector('script[src="https://www.youtube.com/iframe_api"]')){
+        const script=document.createElement('script');
+        script.src='https://www.youtube.com/iframe_api';
+        document.head.appendChild(script);
+      }
+    }else{
+      const video=document.createElement('video');
+      video.src=VIDEO_URL;
+      video.autoplay=true;
+      video.playsInline=true;
+      video.controls=true;
+      video.addEventListener('ended',finishVideo,{once:true});
+      scareBox.replaceChildren(video);
+    }
+    scare.classList.add('show');
+    return true;
+  }
+
+  document.getElementById('closeScare').addEventListener('click',finishVideo);
+  document.getElementById('yesBtn').addEventListener('click',()=>{
+    if(!playScare())showMessage();
+  });
+</script>
+</body>
+</html>
